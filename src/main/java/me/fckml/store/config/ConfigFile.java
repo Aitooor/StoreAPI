@@ -1,7 +1,9 @@
 package me.fckml.store.config;
 
 import lombok.Getter;
-import me.fckml.survival.HologramAPI;
+
+
+import me.fckml.store.StorePlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -81,7 +83,7 @@ public class ConfigFile extends AbstractConfigFile {
     }
 
     public void reload() {
-        File file = new File(HologramAPI.getInstance().getDataFolder(), this.getName() + ".yml");
+        File file = new File(StorePlugin.getInstance().getDataFolder(), this.getName() + ".yml");
         
         try {
             this.getConfiguration().load(file);
@@ -94,7 +96,7 @@ public class ConfigFile extends AbstractConfigFile {
     }
 
     public void save() {
-        File folder = HologramAPI.getInstance().getDataFolder();
+        File folder = StorePlugin.getInstance().getDataFolder();
         try {
             this.getConfiguration().save(new File(folder, this.getName() + ".yml"));
         } catch (Exception ex) {
