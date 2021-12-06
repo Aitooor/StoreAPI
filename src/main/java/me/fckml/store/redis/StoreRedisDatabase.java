@@ -34,6 +34,7 @@ public class StoreRedisDatabase {
         config.setTimeBetweenEvictionRunsMillis(30000L);
 
         this.redisPool = new JedisPool(config, "127.0.0.1", 6379, 30000);
+        this.redisPool.getResource().auth("PASS");
 
         this.setupPubSub();
     }
