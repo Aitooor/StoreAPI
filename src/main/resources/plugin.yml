@@ -1,4 +1,4 @@
 name: Store
-main: me.fckml.store.StorePlugin
+main: me.fckml.g.StorePlugin
 version: 1.0
 author: FCKML

@@ -49,7 +49,7 @@ public class StoreRedisDatabase {
                         if (args[0].equalsIgnoreCase("RECEIVED")) {
                             boolean offline = Boolean.parseBoolean(args[1]);
                             String player = args[2];
-                            String[] commands = args[3].split(",");
+                            String[] commands = args[3].split("[SEP]");
 
                             if (!offline) {
                                 Player online = Bukkit.getPlayer(player);
