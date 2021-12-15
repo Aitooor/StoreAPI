@@ -22,8 +22,11 @@ public class ConfigFile extends AbstractConfigFile {
     public ConfigFile(JavaPlugin plugin, String name, boolean overwrite) {
         super(plugin, name);
         this.file = new File(plugin.getDataFolder(), name + ".yml");
-        
-        plugin.saveResource(name + ".yml", overwrite);
+
+        try {
+            plugin.saveResource(name + ".yml", overwrite);
+        } catch (Exception e) {}
+
         this.configuration = YamlConfiguration.loadConfiguration(this.file);
         
     }
