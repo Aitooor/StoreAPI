@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Survival" />
         <module name="StorePlugin" />
+        <module name="Store" />
       </profile>
     </annotationProcessing>
   </component>

@@ -59,6 +59,10 @@
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
+        <repository>
+            <id>unnamed-public</id>
+            <url>https://repo.unnamed.team/repository/unnamed-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -69,17 +73,32 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/NachoSpigot.jar</systemPath>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
         </dependency>
+
+        <dependency>
+            <groupId>me.yushust.message</groupId>
+            <artifactId>core</artifactId>
+            <version>6.0.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.yushust.message</groupId>
+            <artifactId>sourcetype-bukkit-yml</artifactId>
+            <version>6.0.17</version>
+        </dependency>
+
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver</artifactId>
             <version>3.12.10</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>

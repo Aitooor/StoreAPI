@@ -5,13 +5,13 @@ import org.bukkit.ChatColor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Color {
+public class MessageUtil {
 
     public static String translate(String line) {
         return ChatColor.translateAlternateColorCodes('&', line);
     }
 
     public static List<String> translate(List<String> list) {
-        return list.stream().map(Color::translate).collect(Collectors.toList());
+        return list.stream().map(MessageUtil::translate).collect(Collectors.toList());
     }
 }
