@@ -2,6 +2,7 @@ package me.fckml.store.redis;
 
 import lombok.Data;
 import lombok.Getter;
+import me.fckml.store.StorePlugin;
 import me.fckml.store.storage.Storage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,8 +34,8 @@ public class StoreRedisDatabase {
         config.setMinEvictableIdleTimeMillis(60000L);
         config.setTimeBetweenEvictionRunsMillis(30000L);
 
-        this.redisPool = new JedisPool(config, "127.0.0.1", 6379, 30000);
-        this.redisPool.getResource().auth("PASS");
+        this.redisPool = new JedisPool(config, StorePlugin.getInstance().getConfig().getString("REDIS.ADDRESS"), Integer.parseInt(StorePlugin.getInstance().getConfig().getString("REDIS.PORT")), 30000);
+        this.redisPool.getResource().auth(StorePlugin.getInstance().getConfig().getString("REDIS.PASSWORD"));
 
         this.setupPubSub();
     }
