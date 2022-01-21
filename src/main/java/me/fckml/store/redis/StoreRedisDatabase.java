@@ -78,7 +78,7 @@ public class StoreRedisDatabase {
             try {
                 Jedis jedis = this.redisPool.getResource();
 
-                jedis.auth("PASS");
+                jedis.auth(StorePlugin.getInstance().getConfig().getString("REDIS.PASSWORD"));
                 jedis.subscribe(this.jedisPubSub, "Store");
             } catch (Exception e) {
                 e.printStackTrace();

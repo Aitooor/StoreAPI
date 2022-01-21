@@ -1,8 +1,0 @@
-me\fckml\store\listener\PlayerListener.class
-me\fckml\store\redis\StoreRedisDatabase.class
-me\fckml\store\redis\StoreRedisDatabase$1.class
-me\fckml\store\storage\Storage.class
-me\fckml\store\StorePlugin.class
-me\fckml\store\utils\Color.class
-me\fckml\store\config\AbstractConfigFile.class
-me\fckml\store\config\ConfigFile.class
