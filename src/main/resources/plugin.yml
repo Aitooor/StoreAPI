@@ -1,4 +1,4 @@
 name: Store
-main: me.fckml.store.StorePlugin
+main: online.nasgar.store.StorePlugin
 version: 1.0
-author: FCKML
+authors: [fckml, Vicen621]

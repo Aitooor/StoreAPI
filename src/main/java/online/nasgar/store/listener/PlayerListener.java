@@ -1,8 +1,8 @@
-package me.fckml.store.listener;
+package online.nasgar.store.listener;
 
-import me.fckml.store.StorePlugin;
-import me.fckml.store.config.ConfigFile;
-import me.fckml.store.storage.Storage;
+import online.nasgar.store.StorePlugin;
+import online.nasgar.store.config.ConfigFile;
+import online.nasgar.store.storage.Storage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,6 @@ public class PlayerListener implements Listener {
             file.getConfiguration().getStringList("commands").forEach(command -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("<player>", player.getName())));
             file.getConfiguration().set("commands", null);
             file.save();
-            return;
         }
     }
 }

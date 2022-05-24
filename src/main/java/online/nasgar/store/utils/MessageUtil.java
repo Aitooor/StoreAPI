@@ -1,4 +1,4 @@
-package me.fckml.store.utils;
+package online.nasgar.store.utils;
 
 import org.bukkit.ChatColor;
 

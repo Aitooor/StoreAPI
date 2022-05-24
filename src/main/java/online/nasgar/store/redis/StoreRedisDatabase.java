@@ -1,9 +1,9 @@
-package me.fckml.store.redis;
+package online.nasgar.store.redis;
 
 import lombok.Data;
 import lombok.Getter;
-import me.fckml.store.StorePlugin;
-import me.fckml.store.storage.Storage;
+import online.nasgar.store.StorePlugin;
+import online.nasgar.store.storage.Storage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import redis.clients.jedis.Jedis;
@@ -46,17 +46,30 @@ public class StoreRedisDatabase {
             public void onMessage(String channel, String message) {
                 if (channel.equalsIgnoreCase("Store")) {
                     try {
+                        /* Message: RECEIVED;TEST_SERVER;true;Vicen621;/lorem[SEP]/ipsum[SEP]/dolor[SEP]/sit[SEP]/amet
+                         *
+                         * received: RECEIVED
+                         * server: TEST_SERVER
+                         * online: true
+                         * player: Vicen621
+                         * commands: /lorem[SEP]/ipsum[SEP]/dolor[SEP]/sit[SEP]/amet | {"/lorem", "/ipsum", "/dolor", "/sit", "/amet"}
+                         */
                         String[] args = message.split(";");
 
                         if (args[0].equalsIgnoreCase("RECEIVED")) {
-                            boolean offline = Boolean.parseBoolean(args[1]);
-                            String player = args[2];
-                            String[] commands = args[3].split("[SEP]");
+                            String server = args[1];
 
-                            if (!offline) {
-                                Player online = Bukkit.getPlayer(player);
+                            if (!server.equalsIgnoreCase(StorePlugin.getInstance().getConfig().getString("SERVER_NAME")))
+                                return;
 
-                                if (online == null) {
+                            boolean online = Boolean.parseBoolean(args[2]); //true if online, false if offline
+                            String player = args[3];
+                            String[] commands = args[4].split("[SEP]");
+
+                            if (!online) {
+                                Player onlineP = Bukkit.getPlayer(player);
+
+                                if (onlineP == null) {
                                     Storage.save(player, Arrays.asList(commands));
                                     return;
                                 }

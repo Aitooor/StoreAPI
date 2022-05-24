@@ -1,7 +1,7 @@
-package me.fckml.store.storage;
+package online.nasgar.store.storage;
 
-import me.fckml.store.StorePlugin;
-import me.fckml.store.config.ConfigFile;
+import online.nasgar.store.StorePlugin;
+import online.nasgar.store.config.ConfigFile;
 
 import java.util.List;
 

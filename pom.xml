@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.fckml</groupId>
+    <groupId>online.nasgar</groupId>
     <artifactId>Store</artifactId>
     <version>1.0</version>
 
@@ -80,25 +80,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
-        </dependency>
-
-        <dependency>
-            <groupId>me.yushust.message</groupId>
-            <artifactId>core</artifactId>
-            <version>6.0.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>me.yushust.message</groupId>
-            <artifactId>sourcetype-bukkit-yml</artifactId>
-            <version>6.0.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver</artifactId>
-            <version>3.12.10</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
