@@ -15,19 +15,31 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MongoDB {
 
     private static MongoDatabase mongoDb;
     private static MongoCollection<Document> mongoCol;
 
-    private String AUTH_URL = "mongodb://%s:%s@%s:%s/?authMechanism=DEFAULT";
-    private String NO_AUTH_URL = "mongodb://%s:%s/";
+    private final String AUTH_URL = "mongodb://%s:%s@%s:%s/?authMechanism=DEFAULT";
+    private final String NO_AUTH_URL = "mongodb://%s:%s/";
 
     public MongoDB() {
         connect();
+    }
+
+    public static UpdateResult saveDocuments() {
+        return mongoCol.updateMany(
+                Filters.and(
+                        Filters.eq("used", false),
+                        Filters.eq("paid", true)
+                ),
+                Updates.set("used", true)
+        );
+    }
+
+    public static FindIterable<Document> getProducts() {
+        return mongoCol.find(BsonDocument.parse("{paid: true, used: false}"));
     }
 
     public void connect() {
@@ -48,20 +60,6 @@ public class MongoDB {
                 Bukkit.getLogger().info("[StoreAPI] " + ChatColor.RED + "The plugin can't reach the MongoDB connection");
             }
         });
-    }
-
-    public static UpdateResult saveDocuments() {
-        return mongoCol.updateMany(
-                Filters.and(
-                        Filters.eq("used", false),
-                        Filters.eq("paid", true)
-                ),
-                Updates.set("used", true)
-        );
-    }
-
-    public static FindIterable<Document> getProducts() {
-        return mongoCol.find(BsonDocument.parse("{paid: true, used: false}"));
     }
 
     public static class mongoRunnable implements Runnable {
