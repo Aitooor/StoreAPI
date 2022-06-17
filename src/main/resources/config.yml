@@ -7,4 +7,6 @@ mongo:
   collection: "products"
 
 runnable:
-  seconds: 5
+  seconds: 300
+
+server_name: "test"

@@ -8,7 +8,6 @@ import online.nasgar.store.StorePlugin;
 import online.nasgar.store.config.ConfigFile;
 import online.nasgar.store.storage.Storage;
 import online.nasgar.store.utils.Utils;
-import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,9 +17,9 @@ import java.util.List;
 
 public class MongoDB {
 
+    private static final String SERVER_NAME = new ConfigFile(StorePlugin.getInstance(), "config").getString("server_name");
     private static MongoDatabase mongoDb;
     private static MongoCollection<Document> mongoCol;
-
     private final String AUTH_URL = "mongodb://%s:%s@%s:%s/?authMechanism=DEFAULT";
     private final String NO_AUTH_URL = "mongodb://%s:%s/";
 
@@ -32,14 +31,19 @@ public class MongoDB {
         return mongoCol.updateMany(
                 Filters.and(
                         Filters.eq("used", false),
-                        Filters.eq("paid", true)
+                        Filters.eq("paid", true),
+                        Filters.eq("server", SERVER_NAME)
                 ),
                 Updates.set("used", true)
         );
     }
 
     public static FindIterable<Document> getProducts() {
-        return mongoCol.find(BsonDocument.parse("{paid: true, used: false}"));
+        return mongoCol.find(Filters.and(
+                Filters.eq("used", false),
+                Filters.eq("paid", true),
+                Filters.eq("server", SERVER_NAME)
+        ));
     }
 
     public void connect() {
