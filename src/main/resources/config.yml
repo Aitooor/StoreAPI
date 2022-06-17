@@ -1,6 +1,10 @@
-REDIS:
-  ADDRESS: "127.0.0.1"
-  PORT: "6379"
-  PASSWORD: "e44fuT2mQM2hr437N5DTA99rK8xW8RhRAMmSm9LQ4FcnXx7bf5e8VpwXKquYzBvTpnKjUTthqq3"
+mongo:
+  user: "root"
+  password: "pass"
+  address: "127.0.0.1"
+  port: "27017"
+  database: "test"
+  collection: "products"
 
-SERVER_NAME:
+runnable:
+  seconds: 5
