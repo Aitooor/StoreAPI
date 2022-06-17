@@ -6,7 +6,7 @@
 
     <groupId>online.nasgar</groupId>
     <artifactId>Store</artifactId>
-    <version>1.2</version>
+    <version>1.2.0</version>
 
     <name>${artifactId}-${version}</name>
 
