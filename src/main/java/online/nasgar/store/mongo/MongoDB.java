@@ -20,8 +20,8 @@ public class MongoDB {
     private static final String SERVER_NAME = new ConfigFile(StorePlugin.getInstance(), "config").getString("server_name");
     private static MongoDatabase mongoDb;
     private static MongoCollection<Document> mongoCol;
-    private final String AUTH_URL = "mongodb://%s:%s@%s:%s/?authMechanism=DEFAULT";
-    private final String NO_AUTH_URL = "mongodb://%s:%s/";
+    private final String AUTH_URL = "mongodb" + srv() + "://%s:%s@%s:%s/" + params();
+    private final String NO_AUTH_URL = "mongodb" + srv() + "://%s:%s/" + params();
 
     public MongoDB() {
         connect();
@@ -64,6 +64,15 @@ public class MongoDB {
                 Bukkit.getLogger().info("[StoreAPI] " + ChatColor.RED + "The plugin can't reach the MongoDB connection");
             }
         });
+    }
+
+    private String srv() {
+        return new ConfigFile(StorePlugin.getInstance(), "config").getBoolean("mongo.srv") ? "" : "srv";
+    }
+
+    private String params() {
+        String params = new ConfigFile(StorePlugin.getInstance(), "config").getString("mongo.params");
+        return params == null || params.equals("") || params.equals(" ") ? "" : "?" + params;
     }
 
     public static class mongoRunnable implements Runnable {

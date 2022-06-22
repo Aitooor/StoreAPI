@@ -1,4 +1,4 @@
 name: Store
 main: online.nasgar.store.StorePlugin
-version: 1.3.0
+version: ${project.version}
 authors: [fckml, Vicen621]

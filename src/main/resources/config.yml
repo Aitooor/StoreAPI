@@ -5,6 +5,10 @@ mongo:
   port: "27017"
   database: "test"
   collection: "products"
+  # Si el link es mongodb+srv poner esto en true
+  srv: false
+  # Poner los parametros sin el ?
+  params: "authSource=admin"
 
 runnable:
   seconds: 300
