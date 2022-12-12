@@ -1,7 +1,8 @@
 mongo:
   link: "mongodb://127.0.0.1:27017/"
   database: "test"
-  collection: "products"
+  orders_collection: "products"
+  players_collection: "players"
 
 runnable:
   seconds: 300

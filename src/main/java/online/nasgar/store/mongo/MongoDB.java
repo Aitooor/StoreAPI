@@ -19,28 +19,28 @@ public class MongoDB {
 
     private static final String SERVER_NAME = new ConfigFile(StorePlugin.getInstance(), "config").getString("server_name");
     private static MongoDatabase mongoDb;
-    private static MongoCollection<Document> mongoCol;
+    private static MongoCollection<Document> orders;
 
     public MongoDB() {
         connect();
     }
 
     public static UpdateResult saveDocuments() {
-        return mongoCol.updateMany(
+        return orders.updateMany(
                 Filters.and(
                         Filters.eq("used", false),
                         Filters.eq("paid", true),
-                        Filters.eq("server", SERVER_NAME)
+                        Filters.eq("product.serverName", SERVER_NAME)
                 ),
                 Updates.set("used", true)
         );
     }
 
     public static FindIterable<Document> getProducts() {
-        return mongoCol.find(Filters.and(
+        return orders.find(Filters.and(
                 Filters.eq("used", false),
                 Filters.eq("paid", true),
-                Filters.eq("server", SERVER_NAME)
+                Filters.eq("product.serverName", SERVER_NAME)
         ));
     }
 
@@ -52,11 +52,11 @@ public class MongoDB {
             try {
                 MongoClient mongoClient = MongoClients.create(config.getString("mongo.link"));
                 mongoDb = mongoClient.getDatabase(database);
-                mongoCol = mongoDb.getCollection(collection);
+                orders = mongoDb.getCollection(collection);
 
                 Bukkit.getLogger().info("[StoreAPI] " + ChatColor.GREEN + "Connected to MongoDB!");
             } catch (Exception e) {
-                Bukkit.getLogger().info("[StoreAPI] " + ChatColor.RED + "The plugin can't reach the MongoDB connection");
+                Bukkit.getLogger().warning("[StoreAPI] " + ChatColor.RED + "The plugin can't reach the MongoDB connection");
             }
         });
     }
@@ -67,8 +67,9 @@ public class MongoDB {
         public void run() {
             Utils.async(() -> {
                 MongoDB.getProducts().forEach(doc -> {
-                    OfflinePlayer p = Bukkit.getOfflinePlayer(doc.getString("name"));
-                    List<String> commands = doc.getList("commands", String.class);
+                    Document product = doc.get("product", Document.class);
+                    OfflinePlayer p = Bukkit.getOfflinePlayer(doc.getString("user"));
+                    List<String> commands = product.getList("commands", String.class);
                     if (!commands.isEmpty()) {
                         if (!p.isOnline())
                             Storage.save(p.getName(), commands);
