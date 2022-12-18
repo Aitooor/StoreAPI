@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-@SuppressWarnings({"unused", "deprecation"})
+@SuppressWarnings({"unused"})
 public class RequestGson {
 
     private static final String SERVER_NAME = new ConfigFile(StorePlugin.getInstance(), "config").getString("server_name");
@@ -25,11 +25,11 @@ public class RequestGson {
             for(Product object : objects) {
                 List<String> commands = object.getCommands();
                 if(!commands.isEmpty()) {
-                    if(!Bukkit.getOfflinePlayer(object.getPlayer().getName()).isOnline())
-                        Storage.save(object.getName(), commands);
+                    if(!object.getPlayer().isOnline())
+                        Storage.save(object.getPlayer().getName(), commands);
                     else
                         Bukkit.getScheduler().runTask(StorePlugin.getInstance(), () -> commands.forEach(command -> {
-                            command = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(object.getPlayer().getName()), command);
+                            command = PlaceholderAPI.setPlaceholders(object.getPlayer(), command);
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("<player>", object.getPlayer().getName()));
                         }));
                 }
