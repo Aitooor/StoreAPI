@@ -1,5 +1,7 @@
 redis:
   host: localhost
   port: 6379
-  password: ""
+  password: "e44fuT2mQM2hr437N5DTA99rK8xW8RhRAMmSm9LQ4FcnXx7bf5e8VpwXKquYzBvTpnKjUTthqq3"
   key: "Hub-1"
+
+sending_cooldown: 300 # 20 (ticks) = 1 (minute) || 300 (ticks) = 5 (minutes)

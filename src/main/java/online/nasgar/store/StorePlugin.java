@@ -38,8 +38,8 @@ public class StorePlugin extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // minutes * 20 = seconds * 20 (ticks)
-        RequestGson.redisRunnable.runTaskTimerAsynchronously(this, 0, 20 * 60 * 5);
+        // seconds * sending_cooldown (sending_cooldown in ticks)
+        RequestGson.redisRunnable.runTaskTimerAsynchronously(this, 0, settings.getInt("sending_cooldown") * 60);
         j.set(settings.getString("redis.key"), "[]");
     }
 
