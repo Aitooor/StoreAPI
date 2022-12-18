@@ -3,22 +3,50 @@ package online.nasgar.store;
 import lombok.Getter;
 import online.nasgar.store.config.ConfigFile;
 import online.nasgar.store.listener.PlayerListener;
-import online.nasgar.store.mongo.MongoDB;
-import org.bukkit.Bukkit;
+import online.nasgar.store.gson.RequestGson;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
+@SuppressWarnings({"InstantiationOfUtilityClass", "ConstantConditions"})
 public class StorePlugin extends JavaPlugin {
 
     @Getter
     private static StorePlugin instance;
+    public static YamlConfiguration settings;
+    private static JedisPool pool;
 
     @Override
     public void onEnable() {
         instance = this;
-        new MongoDB();
+        ConfigFile s = new ConfigFile(this, "config");
+        settings = s.getConfiguration();
+        new RequestGson();
         new PlayerListener();
         double seconds = new ConfigFile(this, "config").getDouble("runnable.seconds");
+
+        pool = new JedisPool(settings.getString("redis.host"), settings.getInt("redis.port"));
+        getLogger().info(settings.getString("redis.host") + ":" + settings.getInt("redis.port"));
+        Jedis j = null;
+
+        try{
+            j = pool.getResource();
+            j.auth(settings.getString("redis.password"));
+
+            RequestGson.products = j.get(settings.getString("redis.key"));
+            getLogger().info("Connected to Redis!");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // minutes * 20 = seconds * 20 (ticks)
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new MongoDB.mongoRunnable(), (long) seconds * 20, (long) seconds * 20);
+        RequestGson.redisRunnable.runTaskTimerAsynchronously(this, 0, (long) (seconds * 20));
+        j.set(settings.getString("redis.key"), "[]");
+    }
+
+    @Override
+    public void onDisable() {
+        pool.close();
     }
 }
