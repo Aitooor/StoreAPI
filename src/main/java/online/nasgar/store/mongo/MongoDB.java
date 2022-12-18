@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
+import javax.print.Doc;
 import java.util.List;
 
 public class MongoDB {
@@ -29,8 +30,7 @@ public class MongoDB {
         return orders.updateMany(
                 Filters.and(
                         Filters.eq("used", false),
-                        Filters.eq("paid", true),
-                        Filters.eq("product.serverName", SERVER_NAME)
+                        Filters.eq("paid", true)
                 ),
                 Updates.set("used", true)
         );
@@ -39,8 +39,7 @@ public class MongoDB {
     public static FindIterable<Document> getProducts() {
         return orders.find(Filters.and(
                 Filters.eq("used", false),
-                Filters.eq("paid", true),
-                Filters.eq("product.serverName", SERVER_NAME)
+                Filters.eq("paid", true)
         ));
     }
 
@@ -67,17 +66,22 @@ public class MongoDB {
         public void run() {
             Utils.async(() -> {
                 MongoDB.getProducts().forEach(doc -> {
-                    Document product = doc.get("product", Document.class);
+                    List<Document> products = doc.getList("products", Document.class);
                     OfflinePlayer p = Bukkit.getOfflinePlayer(doc.getString("user"));
-                    List<String> commands = product.getList("commands", String.class);
-                    if (!commands.isEmpty()) {
-                        if (!p.isOnline())
-                            Storage.save(p.getName(), commands);
-                        else
-                            Utils.sync(() -> commands.forEach(command -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                                    command.replace("<player>", p.getName()))));
-                    }
+                    products.forEach(product -> {
 
+                        Document enLang = product.get("en", Document.class);
+
+                        List<String> commands = enLang.getList("commands", String.class);
+
+                        if (!commands.isEmpty()) {
+                            if (!p.isOnline())
+                                Storage.save(p.getName(), commands);
+                            else
+                                Utils.sync(() -> commands.forEach(command -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                                        command.replace("<player>", p.getName()))));
+                        }
+                    });
                 });
 
                 Bukkit.getLogger().info("[StoreAPI] Modified document count: " + MongoDB.saveDocuments().getModifiedCount());
