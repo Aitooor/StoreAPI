@@ -1,4 +1,6 @@
 name: Store
 main: online.nasgar.store.StorePlugin
 version: ${project.version}
-authors: [fckml, Vicen621]
+authors: [fckml, Vicen621, Leo_S, TheoSempaii]
+softdepend:
+  - [PlaceholderAPI]
