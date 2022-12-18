@@ -24,7 +24,6 @@ public class StorePlugin extends JavaPlugin {
         settings = s.getConfiguration();
         new RequestGson();
         new PlayerListener();
-        double seconds = new ConfigFile(this, "config").getDouble("runnable.seconds");
 
         pool = new JedisPool(settings.getString("redis.host"), settings.getInt("redis.port"));
         getLogger().info(settings.getString("redis.host") + ":" + settings.getInt("redis.port"));
@@ -36,12 +35,11 @@ public class StorePlugin extends JavaPlugin {
 
             RequestGson.products = j.get(settings.getString("redis.key"));
             getLogger().info("Connected to Redis!");
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
         // minutes * 20 = seconds * 20 (ticks)
-        RequestGson.redisRunnable.runTaskTimerAsynchronously(this, 0, (long) (seconds * 20));
+        RequestGson.redisRunnable.runTaskTimerAsynchronously(this, 0, 20 * 60 * 5);
         j.set(settings.getString("redis.key"), "[]");
     }
 
