@@ -6,7 +6,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class Product {
-    private Player player;
+    private String player;
     private String name;
     private String description;
     private List<String> categories;
@@ -14,7 +14,7 @@ public class Product {
     private List<String> commands;
     private String serverName;
 
-    public Product(Player player, String name, String description, List<String> categories, String image, List<String> commands, String serverName) {
+    public Product(String player, String name, String description, List<String> categories, String image, List<String> commands, String serverName) {
         this.player = player;
         this.name = name;
         this.description = description;
@@ -24,7 +24,7 @@ public class Product {
         this.serverName = serverName;
     }
 
-    public Player getPlayer() {
+    public String getPlayer() {
         return player;
     }
 
