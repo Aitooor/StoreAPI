@@ -20,24 +20,22 @@ public class RequestGson {
 
         @Override
         public void run() {
-
             Gson gson = new Gson();
-            Bukkit.getLogger().info("[StoreAPI] Modified document count:");
             Product[] objects = gson.fromJson(products, Product[].class);
             for(Product object : objects) {
                 List<String> commands = object.getCommands();
                 if(!commands.isEmpty()) {
-                    if(!Bukkit.getOfflinePlayer(object.getName()).isOnline())
+                    if(!Bukkit.getOfflinePlayer(object.getPlayer().getName()).isOnline())
                         Storage.save(object.getName(), commands);
                     else
                         Bukkit.getScheduler().runTask(StorePlugin.getInstance(), () -> commands.forEach(command -> {
-                            command = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(object.getName()), command);
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("<player>", object.getName()));
+                            command = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(object.getPlayer().getName()), command);
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("<player>", object.getPlayer().getName()));
                         }));
                 }
             }
-            this.cancel();
             Bukkit.getLogger().info("[StoreAPI] Modified document count: " + objects.length);
+            this.cancel();
         }
     };
 
