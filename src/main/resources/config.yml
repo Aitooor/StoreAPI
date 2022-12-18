@@ -4,4 +4,4 @@ redis:
   password: "e44fuT2mQM2hr437N5DTA99rK8xW8RhRAMmSm9LQ4FcnXx7bf5e8VpwXKquYzBvTpnKjUTthqq3"
   key: "Hub-1"
 
-sending_cooldown: 300 # 20 (ticks) = 1 (minute) || 300 (ticks) = 5 (minutes)
+sending_cooldown: 6000 # 20 (ticks) = 1 (sec) || 6000 (ticks) = 5 (minutes)
