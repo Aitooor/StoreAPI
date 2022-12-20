@@ -39,7 +39,6 @@ public class RequestGson {
                 }
             }
             getLogger().info("[StoreAPI] Modified document count: " + objects.length);
-            this.cancel();
         }
     };
 
