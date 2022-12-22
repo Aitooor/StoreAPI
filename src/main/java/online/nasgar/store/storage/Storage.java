@@ -10,9 +10,14 @@ public class Storage {
     public static void save(String name, List<String> commands) {
         ConfigFile configFile = new ConfigFile(StorePlugin.getInstance(), "players/" + name);
 
-        configFile.getConfiguration().set("commands", commands);
+        if (configFile.getConfiguration().contains("commands")) {
+            List<String> oldCommands = configFile.getConfiguration().getStringList("commands");
+            oldCommands.addAll(commands);
+            configFile.getConfiguration().set("commands", oldCommands);
+        } else {
+            configFile.getConfiguration().set("commands", commands);
+        }
         configFile.getConfiguration().set("name", name);
-
         configFile.save();
     }
 
