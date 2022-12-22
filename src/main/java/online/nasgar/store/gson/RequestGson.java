@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.bukkit.Bukkit.getLogger;
 
-@SuppressWarnings({"unused", "deprecation"})
+@SuppressWarnings({"unused", "deprecation", "DataFlowIssue"})
 public class RequestGson {
 
     private static final String SERVER_NAME = new ConfigFile(StorePlugin.getInstance(), "config").getString("server_name");
@@ -27,9 +27,9 @@ public class RequestGson {
             for(Product object : objects) {
                 List<String> commands = object.getCommands();
                 if(commands != null && !commands.isEmpty()) {
-                    if(!Bukkit.getOfflinePlayer(object.getPlayer()).isOnline())
+                    if (!Bukkit.getOfflinePlayer(object.getPlayer()).isOnline())
                         Storage.save(object.getPlayer(), commands);
-                    else
+                }else{
                         Bukkit.getScheduler().runTask(StorePlugin.getInstance(), () -> commands.forEach(command -> {
                             command = PlaceholderAPI.setPlaceholders(Bukkit.getOfflinePlayer(object.getPlayer()), command);
                             getLogger().info(command);
@@ -39,6 +39,7 @@ public class RequestGson {
                 }
             }
             getLogger().info("[StoreAPI] Modified document count: " + objects.length);
+            this.cancel();
         }
     };
 
